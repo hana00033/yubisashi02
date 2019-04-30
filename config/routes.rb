@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'lists/carender'
+  get 'lists/month'
+
   devise_for :users
   resources :lists
   get "home/index" =>"home#index"

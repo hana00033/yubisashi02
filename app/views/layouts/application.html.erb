@@ -16,6 +16,8 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <%= link_to 'リスト', lists_url %>
+    <%= link_to 'カレンダー', lists_carender_path %>
     <%= yield %>
   </body>
 </html>

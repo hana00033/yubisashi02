@@ -1,2 +1,7 @@
-<h1>Lists#index</h1>
-<p>Find me in app/views/lists/index.html.erb</p>
+<br><br>
+<%= @body %><%= @test %><br>
+<% @lists.each do |list| %>
+	<%= list.name %><br>
+	<%= list.switch %><br>
+	<%= list.c_at %><br><br>
+<% end %>
