@@ -40,6 +40,9 @@
 						<% if d <= l_day %>
 							<% d_day = Date.new(@t.year,@t.month,d) %>
 							<%= d %>
+							<% if current_user.lists.where(c_day: d_day).length != 0 %>
+								。
+							<% end %>
 						<% end %>
 						<% d += 1 %>
 						<% i += 1 %>

@@ -28,9 +28,22 @@ class ListsController < ApplicationController
 	  if m.multipart?
 	    # plantextなメールかチェック
 	    if m.text_part
-	      @body = m.text_part.decoded
+	      @body = m.text_part.decoded.to_s
+	      @b = @body.split(",")
+	      if @b[0] == "test" && @test == 0
+			@test = 1
+			@a = @b[1]
+			@c = @b[3]
+			# list = List.new
+			# list = current_user.lists.new
+			# list.name = @b[1]
+			# list.switch = @b[2].to_i
+			# list.c_at = Time.now
+			# list.c_day = Time.now
+			# list.save!
+			end
 	    # htmlなメールかチェック
-	    elsif m.html_part
+	    elsif m.html_par
 	      body = m.html_part.decoded
 	    end
 	  else
@@ -38,15 +51,7 @@ class ListsController < ApplicationController
 	  end
 	end
 
-	if @body == "テスト"
-		@test = 1
-		list = List.new
-		list = current_user.lists.new
-		list.name = "1"
-		list.switch = 0
-		list.c_at = Date.today.to_time
-		list.save!
-	end
+	
 
   end
 
@@ -76,7 +81,7 @@ class ListsController < ApplicationController
     end
 
     def list_params
-      params.require(:list).permit(:name, :switch, :c_at)
+      params.require(:list).permit(:name, :switch, :c_at, :s_day)
     end
 
 end
