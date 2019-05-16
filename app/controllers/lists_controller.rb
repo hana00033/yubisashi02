@@ -29,19 +29,6 @@ class ListsController < ApplicationController
 	    # plantextなメールかチェック
 	    if m.text_part
 	      @body = m.text_part.decoded.to_s
-	      @b = @body.split(",")
-	      if @b[0] == "test" && @test == 0
-			@test = 1
-			@a = @b[1]
-			@c = @b[3]
-			# list = List.new
-			# list = current_user.lists.new
-			# list.name = @b[1]
-			# list.switch = @b[2].to_i
-			# list.c_at = Time.now
-			# list.c_day = Time.now
-			# list.save!
-			end
 	    # htmlなメールかチェック
 	    elsif m.html_par
 	      body = m.html_part.decoded
@@ -51,8 +38,33 @@ class ListsController < ApplicationController
 	  end
 	end
 
+	@b = @body.split(",")
+	 #    if @b[0] == "test" && @test == 0 && @lists[@lists.length-1].name != @b[1]
+		# 	@test = 1
+		# 	list = List.new
+		# 	list = current_user.lists.new
+		# 	list.name = @b[1]
+		# 	list.switch = @b[2].to_i
+		# 	list.c_at = Time.parse(@b[3])
+		# 	list.c_day = Date.parse(@b[3])
+		# 	list.save!
+		# end
+
 	
 
+  end
+
+  def reset
+  	for i in 0..2 do
+	  	list = List.new
+		list = current_user.lists.new
+		list.name = "0#{i}"
+		list.switch =0
+		list.c_at = Time.now
+		list.c_day = Time.now
+		list.save!
+	end
+	redirect_to lists_url
   end
 
   def show

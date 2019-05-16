@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'lists/carender'
   get 'lists/month'
+  get 'lists/reset'
 
   devise_for :users
   resources :lists
