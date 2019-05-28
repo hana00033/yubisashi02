@@ -3,7 +3,10 @@ class ListsController < ApplicationController
   def index
   	@lists = current_user.lists
   	@body = "なし"
-  	@test = 0
+  	last_n = @lists[@lists.length-1].name
+  	last_a = @lists[@lists.length-4].c_at
+  	last_s = @lists[@lists.length-1].switch
+  	last_r = @lists[@lists.length-1].room
 
   	require 'net/imap'
 	require 'kconv'
@@ -39,30 +42,52 @@ class ListsController < ApplicationController
 	end
 
 	@b = @body.split(",")
-	 #    if @b[0] == "test" && @test == 0 && @lists[@lists.length-1].name != @b[1]
-		# 	@test = 1
-		# 	list = List.new
-		# 	list = current_user.lists.new
-		# 	list.name = @b[1]
-		# 	list.switch = @b[2].to_i
-		# 	list.c_at = Time.parse(@b[3])
-		# 	list.c_day = Date.parse(@b[3])
-		# 	list.save!
-		# end
+	    if @b[0] == "test" 
+	    	if last_s ==  1 && @b[1] != last_n && @b[3] != last_r
+				list = List.new
+				list = current_user.lists.new
+				list.name = @b[1]
+				list.switch = 1
+				list.c_at = Time.parse(@b[2])
+				list.c_day = Date.parse(@b[2])
+				list.room = @b[3].to_i
+				list.save!
+			elsif last_s == 0 && Time.parse(@b[2]) != last_a
+				list = List.new
+				list = current_user.lists.new
+				list.name = @b[1]
+				list.switch = 1
+				list.c_at = Time.parse(@b[2])
+				list.c_day = Date.parse(@b[2])
+				lists.room = @b[3].to_i
+				list.save!
+			end
+		end
 
 	
 
   end
 
+  def room
+  	@lists = target_room params[:room]
+  	last_n = @lists[@lists.length-1].name
+  	last_a = @lists[@lists.length-4].c_at
+  	last_s = @lists[@lists.length-1].switch
+  end
+
   def reset
-  	for i in 0..2 do
-	  	list = List.new
-		list = current_user.lists.new
-		list.name = "0#{i}"
-		list.switch =0
-		list.c_at = Time.now
-		list.c_day = Time.now
-		list.save!
+  	for n in 0..4 do
+  		lists = target_room n
+	  	for i in 0..lists.length-1 do
+		  	list = List.new
+			list = current_user.lists.new
+			list.name = "0#{i}"
+			list.switch = 0
+			list.c_at = Time.now
+			list.c_day = Time.now
+			list.room = n
+			list.save!
+		end
 	end
 	redirect_to lists_url
   end
@@ -92,8 +117,12 @@ class ListsController < ApplicationController
       current_user.lists.where(id: list_id).take
     end
 
+    def target_room list_room
+      current_user.lists.where(room: list_room)
+    end
+
     def list_params
-      params.require(:list).permit(:name, :switch, :c_at, :s_day)
+      params.require(:list).permit(:name, :switch, :c_at, :s_day, :room)
     end
 
 end

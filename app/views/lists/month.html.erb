@@ -1,6 +1,6 @@
 <div class=container>
-	<%= @t.strftime("%Y/%m") %>
 	<%= link_to '<', controller: 'lists', action: 'month', date: @t.prev_month  %>
+	<%= @t.strftime("%Y/%m") %>
 	<%= link_to '>', controller: 'lists', action: 'month', date: @t.next_month  %>
 	<div class="calender">
 		<% f_week = @t.beginning_of_month.wday.to_i %>

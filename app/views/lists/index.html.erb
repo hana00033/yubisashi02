@@ -1,14 +1,44 @@
+<div class="container">
+<%= @body %>
 <br>
-<% l_name = ["電気","ガス","鍵"] %>
-<% l_onf = [0,0,0] %>
-<% l_at = ["0","0,","0"] %>
-<%= link_to 'リセット', controller: 'lists', action: 'reset' %><br>
-<%= @body %><br><br>
+<% l_onf = [0,0,0,0] %>
+<% r_onf = [0,0,0,0,0] %>
+<% for i in 0..4 do %>
 <% @lists.each do |list| %>
+	<% if list.room == i %>
 	<% l_onf[list.name.to_i] = list.switch %>
-	<% l_at[list.name.to_i] = list.c_at.strftime("%H:%M") %>
+	<% end %>
 <% end %>
-
-<%= l_name %><br>
-<%= l_onf %><br>
-<%= l_at %>
+	<%= l_onf %>
+	<% if l_onf[0] == 1 && l_onf[1] == 1 && l_onf[2] == 1 && l_onf[3] == 1 %>
+	<% r_onf[i] = 1 %>
+	<% end %>
+<% end %>
+  <div class="task">
+    <%= link_to(lists_room_path(0), class:'room-list') do%>
+    <p>キッチン</p><%= r_onf[0] %>
+    <% end %>
+  </div>
+  <div class="task">
+    <%= link_to(lists_room_path(1), class:'room-list') do%>
+    <p>リビング</p><%= r_onf[1] %>
+    <% end %>
+  </div>
+  <div class="task">
+    <%= link_to(lists_room_path(2), class:'room-list') do%>
+    <p>寝室</p><%= r_onf[2] %>
+    <% end %>
+  </div>
+   <div class="task">
+    <%= link_to(lists_room_path(3), class:'room-list') do%>
+    <p>トイレ</p><%= r_onf[3] %>
+    <% end %>
+  </div>
+   <div class="task">
+    <%= link_to(lists_room_path(4), class:'room-list') do%>
+    <p>玄関</p><%= r_onf[4] %>
+    <% end %>
+  </div>
+<br>
+  <%= link_to 'リセット', controller: 'lists', action: 'reset' %>
+</div>
