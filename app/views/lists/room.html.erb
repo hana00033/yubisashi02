@@ -1,14 +1,50 @@
-<br>
-<% l_name = ["電気","ガス","水道","窓"] %>
-<% l_onf = [0,0,0,0] %>
-<% l_at = ["0","0,","0","0"] %>
-<%= link_to 'リセット', controller: 'lists', action: 'reset' %><br>
-<%= @body %><br><br>
-<% @lists.each do |list| %>
-	<% l_onf[list.name.to_i] = list.switch %>
-	<% l_at[list.name.to_i] = list.c_at.strftime("%H:%M") %>
-<% end %>
+<% r_name = ["玄関","リビング","キッチン","トイレ","寝室"] %>
+<header>
+  <%=  r_name[@lists[0].room] %>
+  <%= link_to '<', {controller: 'lists', action: 'index'},{:class=>"room"} %>
+</header>
+<div class="container">
+	<% l_onf = [0,0,0,0] %>
+	<% l_at = ["0","0,","0","0"] %>
+	<% @lists.each do |list| %>
+		<% l_onf[list.name.to_i] = list.switch %>
+		<% l_at[list.name.to_i] = list.c_at.strftime("%H:%M") %>
+	<% end %>
 
-<%= l_name %><br>
-<%= l_onf %><br>
-<%= l_at %>
+	<div class="container">
+		<div class="checklists">
+			<% if l_onf[0] == 0 %>
+			<%= image_tag("電気.png", :class => "checklist-icon") %>
+			<% else %>
+			<%= image_tag("電気チェック.png", :class => "checklist-icon") %>
+			<% end %>
+
+			<% if l_onf[1] == 0 %>
+			<%= image_tag("水道.png", :class => "checklist-icon") %>
+			<% else %>
+			<%= image_tag("水道チェック.png", :class => "checklist-icon") %>
+			<% end %>
+
+			<% if l_onf[2] == 0 %>
+			<%= image_tag("ガス.png", :class => "checklist-icon") %>
+			<% else %>
+			<%= image_tag("ガスチェック.png", :class => "checklist-icon") %>
+			<% end %>
+
+			<% if l_onf[3] == 0 %>
+			<%= image_tag("窓.png", :class => "checklist-icon") %>
+			<% else %>
+			<%= image_tag("窓チェック.png", :class => "checklist-icon") %>
+			<% end %>
+		</div>
+		<div class="plus">
+		<%= image_tag("plus.png", :class => "plus-icon2") %>
+		</div>
+	</div>
+	<%= l_at %>
+</div>
+
+<footer>
+  <%= link_to image_tag("カレンダー（フッター）.png", :class => "footer-icon") ,lists_carender_path%>
+  <%= link_to image_tag("チェックリスト選択（フッター）.png", :class => "footer-icon") ,lists_url %>
+</footer>

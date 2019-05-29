@@ -59,7 +59,7 @@ class ListsController < ApplicationController
 				list.switch = 1
 				list.c_at = Time.parse(@b[2])
 				list.c_day = Date.parse(@b[2])
-				lists.room = @b[3].to_i
+				list.room = @b[3].to_i
 				list.save!
 			end
 		end

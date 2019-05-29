@@ -1,6 +1,7 @@
+<header>
+  <%= image_tag("チェックリスト.png", :class => "header-icon") %>
+</header>
 <div class="container">
-<%= @body %>
-<br>
 <% l_onf = [0,0,0,0] %>
 <% r_onf = [0,0,0,0,0] %>
 <% for i in 0..4 do %>
@@ -9,36 +10,61 @@
 	<% l_onf[list.name.to_i] = list.switch %>
 	<% end %>
 <% end %>
-	<%= l_onf %>
 	<% if l_onf[0] == 1 && l_onf[1] == 1 && l_onf[2] == 1 && l_onf[3] == 1 %>
 	<% r_onf[i] = 1 %>
 	<% end %>
 <% end %>
+<div class="checklists">
   <div class="task">
     <%= link_to(lists_room_path(0), class:'room-list') do%>
-    <p>キッチン</p><%= r_onf[0] %>
+	    <% if r_onf[0] == 1 %>
+	    <%= image_tag("玄関チェック.png", :class => "checklist-icon") %>
+	    <% else %>
+	    <%= image_tag("玄関.png", :class => "checklist-icon") %>
+	    <% end %>
     <% end %>
   </div>
   <div class="task">
     <%= link_to(lists_room_path(1), class:'room-list') do%>
-    <p>リビング</p><%= r_onf[1] %>
+    	<% if r_onf[1] == 1 %>
+	    <%= image_tag("リビングチェック.png", :class => "checklist-icon") %>
+	    <% else %>
+	    <%= image_tag("リビング.png", :class => "checklist-icon") %>
+	    <% end %>
     <% end %>
   </div>
   <div class="task">
     <%= link_to(lists_room_path(2), class:'room-list') do%>
-    <p>寝室</p><%= r_onf[2] %>
+    	<% if r_onf[2] == 1 %>
+	    <%= image_tag("キッチンチェック.png", :class => "checklist-icon") %>
+	    <% else %>
+	    <%= image_tag("キッチン.png", :class => "checklist-icon") %>
+	    <% end %>
     <% end %>
   </div>
    <div class="task">
     <%= link_to(lists_room_path(3), class:'room-list') do%>
-    <p>トイレ</p><%= r_onf[3] %>
+    	<% if r_onf[3] == 1 %>
+	    <%= image_tag("トイレチェック.png", :class => "checklist-icon") %>
+	    <% else %>
+	    <%= image_tag("トイレ.png", :class => "checklist-icon") %>
+	    <% end %>
     <% end %>
   </div>
    <div class="task">
     <%= link_to(lists_room_path(4), class:'room-list') do%>
-    <p>玄関</p><%= r_onf[4] %>
+    	<% if r_onf[4] == 1 %>
+	    <%= image_tag("寝室チェック.png", :class => "checklist-icon") %>
+	    <% else %>
+	    <%= image_tag("寝室.png", :class => "checklist-icon") %>
+	    <% end %>
     <% end %>
   </div>
-<br>
-  <%= link_to 'リセット', controller: 'lists', action: 'reset' %>
 </div>
+<br>
+  <%= link_to image_tag("リセット.png", :class => "reset-icon"), controller: 'lists', action: 'reset' %>
+</div>
+<footer>
+  <%= link_to image_tag("カレンダー（フッター）.png", :class => "footer-icon") ,lists_carender_path%>
+  <%= link_to image_tag("チェックリスト選択（フッター）.png", :class => "footer-icon") ,lists_url %>
+</footer>

@@ -1,56 +1,70 @@
+<header>
+  <%= image_tag("カレンダー.png", :class => "header-icon") %>
+</header>
+
 <div class=container>
-	<%= link_to '<', controller: 'lists', action: 'month', date: @t.prev_month  %>
-	<%= @t.strftime("%Y/%m") %>
-	<%= link_to '>', controller: 'lists', action: 'month', date: @t.next_month  %>
-	<div class="calender">
-		<% f_week = @t.beginning_of_month.wday.to_i %>
-		<% l_day = @t.end_of_month.day.to_i %>
-		<% w = f_week %>
-		<% for i in 1..l_day do %>
-			<% @days.push(w) %>
-			<% w += 1 %>
-			<%if w > 6 %>
-				<% w = 0 %>
-			<% end %>
+  <div class = yearmonth>
+    <%= link_to '<', {controller: 'lists', action: 'month', date: @t.prev_month},{:class=>"next"} %>
+    <%= @t.strftime("%Y年%m月") %>
+    <%= link_to '>', {controller: 'lists', action: 'month', date: @t.next_month},{:class=>"next"}  %>
+  </div>
+ <div class="carender">
+  <% f_week = @t.beginning_of_month.wday.to_i %>
+  <% l_day = @t.end_of_month.day.to_i %>
+  <% w = f_week %>
+  <% for i in 1..l_day do %>
+   <% @days.push(w) %>
+   <% w += 1 %>
+   <%if w > 6 %>
+    <% w = 0 %>
+   <% end %>
+  <% end %>
+  <% d = 1 %>
+
+  <table class="table-s">
+   <tr>
+    <th>日</th>
+    <th>月</th>
+    <th>火</th>
+    <th>水</th>
+    <th>木</th>
+    <th>金</th>
+    <th>土</th>
+
+   </tr>
+   <% while d <= l_day do %>
+   <tr>
+    <% i = 0 %>
+    <% while i < 7 %>
+     <% if d == 1 && f_week != 0 %>
+      <% for w in 0..(f_week-1) %>
+       <td height ="50"></td>
+       <% i += 1 %>
+      <% end %>
+     <%end %>
+     <td height ="50">
+      <% if d <= l_day %>
+      <%= d %>
+       <% d_day = Date.new(@t.year,@t.month,d) %>
+       <br>
+       <% if current_user.lists.where(c_day: d_day).length != 0 %>
+		<%= image_tag("カレンダー用チェック.png", :class => "carender-icon") %>
+		<% else %>
+		<br>
 		<% end %>
-		<% d = 1 %>
-
-		<table>
-			<tr align="center">
-				<th>Sun</th>
-				<th>Mon</th>
-				<th>Tue</th>
-				<th>Wed</th>
-				<th>Thu</th>
-				<th>Fri</th>
-				<th>Sat</th>
-
-			</tr>
-			<% while d <= l_day do %>
-			<tr>
-				<% i = 0 %>
-				<% while i < 7 %>
-					<% if d == 1 && f_week != 0 %>
-						<% for w in 0..(f_week-1) %>
-							<td></td>
-							<% i += 1 %>
-						<% end %>
-					<%end %>
-					<td>
-						<% if d <= l_day %>
-						<%= d %>
-							<% d_day = Date.new(@t.year,@t.month,d) %>
-							<% if current_user.lists.where(c_day: d_day).length != 0 %>
-							。
-							<% end %>
-						<% end %>
-						<% d += 1 %>
-						<% i += 1 %>
-					</td>
-				<% end %>
-			</tr>
-			<% end %>
-		</table>
-	</div>
+      <% end %>
+      <% d += 1 %>
+      <% i += 1 %>
+     </td>
+    <% end %>
+   </tr>
+   <% end %>
+  </table>
+ </div>
 </div>
 
+<footer>
+  <%= link_to image_tag("カレンダー選択（フッター）.png", :class => "footer-icon") ,lists_carender_path %>
+  <%= link_to image_tag("チェックリスト（フッター）.png", :class => "footer-icon") ,lists_url %>
+
+</footer>
