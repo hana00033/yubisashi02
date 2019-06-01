@@ -2,18 +2,40 @@
   <%= image_tag("チェックリスト.png", :class => "header-icon") %>
 </header>
 <div class="container">
-<% l_onf = [0,0,0,0] %>
 <% r_onf = [0,0,0,0,0] %>
-<% for i in 0..4 do %>
-<% @lists.each do |list| %>
-	<% if list.room == i %>
-	<% l_onf[list.name.to_i] = list.switch %>
+<% i = 0 %>
+<% for n in 0..4 do %>
+	<% l_onf = [] %>
+	<% if @spaces.length-1 > i %>
+		<% while @spaces[i].room == n %>
+		<% i += 1 %>
+		<% l_onf.push(0) %>
+		<% end %>
+		<% @lists.each do |list| %>
+			<% if list.room == n %>
+			<% l_onf[list.name.to_i] = list.switch %>
+			<% end %>
+		<% end %>
+		<% sum = 0 %>
+		<% for m in 0..l_onf.length-1 do %>
+			<% sum += l_onf[m] %>
+		<% end %>
+		<% if sum == l_onf.length %>
+		<% r_onf[n] = 1 %>
+		<% end %>
+	<% elsif n == 4 %>
+		<% l_onf.push(0) %>
+		<% @lists.each do |list| %>
+			<% if list.room == n %>
+			<% l_onf[list.name.to_i] = list.switch %>
+			<% end %>
+		<% end %>
+		<% if l_onf[0] == 1 %>
+		<% r_onf[4] = 1 %>
+		<% end %>
 	<% end %>
 <% end %>
-	<% if l_onf[0] == 1 && l_onf[1] == 1 && l_onf[2] == 1 && l_onf[3] == 1 %>
-	<% r_onf[i] = 1 %>
-	<% end %>
-<% end %>
+
 <div class="checklists">
   <div class="task">
     <%= link_to(lists_room_path(0), class:'room-list') do%>
@@ -60,8 +82,10 @@
 	    <% end %>
     <% end %>
   </div>
+  <div class="plus">
+		<%= image_tag("plus.png", :class => "plus-icon2") %>
+	</div>
 </div>
-<br>
   <%= link_to image_tag("リセット.png", :class => "reset-icon"), controller: 'lists', action: 'reset' %>
 </div>
 <footer>

@@ -2,9 +2,10 @@ class ListsController < ApplicationController
   before_action :authenticate_user!
   def index
   	@lists = current_user.lists
+  	@spaces = current_user.spaces
   	@body = "なし"
   	last_n = @lists[@lists.length-1].name
-  	last_a = @lists[@lists.length-4].c_at
+  	last_a = @lists[@lists.length-(@spaces.length+1)].c_at
   	last_s = @lists[@lists.length-1].switch
   	last_r = @lists[@lists.length-1].room
 
@@ -69,26 +70,38 @@ class ListsController < ApplicationController
   end
 
   def room
+  	@spaces = target_space params[:room]
   	@lists = target_room params[:room]
-  	last_n = @lists[@lists.length-1].name
-  	last_a = @lists[@lists.length-4].c_at
-  	last_s = @lists[@lists.length-1].switch
   end
 
   def reset
+  	spaces = current_user.spaces
+  	i = 0
+  	s = 0
   	for n in 0..4 do
-  		lists = target_room n
-	  	for i in 0..lists.length-1 do
+  		m = 0
+	  	while spaces[i].room == n && i < spaces.length-1
 		  	list = List.new
 			list = current_user.lists.new
-			list.name = "0#{i}"
+			list.name = "0#{m}"
 			list.switch = 0
 			list.c_at = Time.now
 			list.c_day = Time.now
 			list.room = n
 			list.save!
+			m += 1
+			i += 1
 		end
+		s = m
 	end
+	list = List.new
+	list = current_user.lists.new
+	list.name = "0#{s}"
+	list.switch = 0
+	list.c_at = Time.now
+	list.c_day = Time.now
+	list.room = 4
+	list.save!
 	redirect_to lists_url
   end
 
@@ -119,6 +132,10 @@ class ListsController < ApplicationController
 
     def target_room list_room
       current_user.lists.where(room: list_room)
+    end
+
+    def target_space space_room
+      current_user.spaces.where(room: space_room)
     end
 
     def list_params
