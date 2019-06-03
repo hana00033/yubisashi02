@@ -110,11 +110,13 @@ class ListsController < ApplicationController
   end
 
   def carender
+  	@time = params[:time]
   	@days = []
   	@t = Time.now
   end
 
   def month
+  	@time = params[:time]
   	@days = []
   	@t = DateTime.parse(params[:date])
   end

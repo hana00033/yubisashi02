@@ -4,7 +4,7 @@
 
 <div class=container>
   <div class = yearmonth>
-    <%= link_to '<', {controller: 'lists', action: 'month', date: @t.prev_month},{:class=>"next"} %>
+    <%= link_to '<', {controller: 'lists', action: 'month', date: @t.prev_month, time: ' '},{:class=>"next"} %>
     <%= @t.strftime("%Y年%m月") %>
     <%= link_to '>', {controller: 'lists', action: 'month', date: @t.next_month},{:class=>"next"}  %>
   </div>
@@ -42,13 +42,14 @@
        <% i += 1 %>
       <% end %>
      <%end %>
-     <td height ="50">
+     <td height ="50" class="scroll">
       <% if d <= l_day %>
       <%= d %>
        <% d_day = Date.new(@t.year,@t.month,d) %>
        <br>
        <% if current_user.lists.where(c_day: d_day).length != 0 %>
-		<%= image_tag("カレンダー用チェック.png", :class => "carender-icon") %>
+       <%= image_tag("カレンダー用チェック.png", :class => "carender-icon") %>
+       <div class ="l_time"><%= ",#{current_user.lists.where(c_day: d_day)[0].c_at.strftime("%H:%M")}" %></div>
 		<% else %>
 		<br>
 		<% end %>
@@ -62,6 +63,11 @@
   </table>
  </div>
 </div>
+<div class="timeshow" id="balloon">
+  <%= image_tag("セット.png", :class => "balloon") %>
+  <p id="g_time"></p>
+ </div>
+ <div class="empty"></div>
 
 <footer>
   <%= link_to image_tag("カレンダー選択（フッター）.png", :class => "footer-icon") ,lists_carender_path %>

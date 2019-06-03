@@ -114,3 +114,33 @@ footer{
 	color:#c0c0c0;
 	text-decoration: none;
 }
+
+.timeshow{
+	position:relative;
+	text-align:center;
+}
+
+.timeshow p{
+	position:absolute;
+	top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  margin:0;
+  padding:0;
+}
+
+.balloon{
+	margin-top:20px;
+	margin-bottom:20px;
+	width:80%;
+}
+
+.empty{
+	height:70px;
+}
+
+.l_time{
+	display: none;
+}
