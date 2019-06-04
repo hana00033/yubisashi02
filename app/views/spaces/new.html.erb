@@ -1,0 +1,23 @@
+<h1>ようこそ</h1>
+<p>※部屋とその中のチェックリストを作成してください</p>
+<div style="width: 300px;">
+  <%= form_for(@space) do |f| %>
+  <div>
+    <p>電気、ガス、水道、窓、鍵</p>
+    <%= f.text_field :name, style: "border: 1px solid lightgray;" %>
+  </div>
+  <div>
+    <p>部屋(0~4)<br>0:玄関,1:リビング,2:キッチン,3:トイレ,4:寝室</p>
+    <%= f.number_field :room, style: "border: 1px solid lightgray;" %>
+  </div>
+    <%= f.submit '作成' ,style: "border: 1px solid lightgray;"%>
+  <% end %>
+</div>
+<p><%= link_to 'はじめる', controller: 'lists', action: 'reset' %></p>
+<p><%= link_to 'リストへ', lists_url %></p>
+<% r = ["玄関","リビング","キッチン","トイレ","寝室"] %>
+<% @spaces.each do |space| %>
+  <%= space.name %>:
+  <%= r[space.room] %>
+  <br>
+<% end %>
